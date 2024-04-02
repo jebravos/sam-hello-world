@@ -38,9 +38,18 @@ jobs:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: |
-          # trigger the tests here
+      - name: Check out Repository
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: 'corretto'
+      - name: Packaging Jar
+        id: packaging-jar
+        shell: bash
+        run: gradle clean build
+
 
   delete-feature:
     if: startsWith(github.event.ref, 'feature') && github.event_name == 'delete'
@@ -157,7 +166,6 @@ jobs:
         with:
           name: packaged-prod.yaml
           path: packaged-prod.yaml
-
   deploy-testing:
     if: github.ref == 'refs/heads/main'
     needs: [build-and-package]
