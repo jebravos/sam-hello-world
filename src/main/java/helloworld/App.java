@@ -30,8 +30,8 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
             String output = String.format("{ \"message\": \"I'm using canary deployments 2\", \"location\": \"%s\" }", pageContents);
 
             return response
-                    .withStatusCode(200)
-                    .withBody(output);
+                    .withBody(output)
+                    .withStatusCode(200);
         } catch (IOException e) {
             return response
                     .withBody("{}")
